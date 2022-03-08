@@ -55,18 +55,10 @@
                             <input type="text" class="form-control" name="location"
                                    placeholder="Enter 'Location' here...">
                         </div>
-                        <!-- 중요도 입력 -->
+                        <!-- Priority 입력 -->
                         <div class="form-group">
-                            <label>Importance<span class="grade"></span></label>
+                            <label>Priority<span class="priority"></span></label>
                             <div class='starrr'></div>
-                        </div>
-                        <div class="form-group">
-                            <label>StartDate</label>
-                            <input type="datetime-local" class="form-control" name="start">
-                        </div>
-                        <div class="form-group">
-                            <label>EndDate</label>
-                            <input type="datetime-local" class="form-control" name="end">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -88,12 +80,17 @@
             document.addEventListener('DOMContentLoaded', function () {
 
                 let today = new Date();
-                var grade = 0;
+                let planModal = $(".planModal");
+                let inputTitle = $('input[name="title"]');
+                let inputDescription = $('textarea[id="description"]');
+                let inputLocation = $('input[name="location"]');
+                let inputPriority = $('input[class="priority"]');
+                var priority = 1;
                 $('.starrr').starrr({
-                    rating: grade,
+                    rating: priority,
                     change: function (e, value) {
                         if (value) {
-                            grade = value;
+                            priority = value;
                         }
                     }
                 });
@@ -111,16 +108,34 @@
                     selectable: true,
                     selectMirror: true,
                     select: function (arg) {
-                        console.log('arg:', arg)
-                        var title = prompt('Event Title:');
-                        if (title) {
-                            calendar.addEvent({
-                                title: title,
-                                start: arg.start,
-                                end: arg.end,
-                                allDay: arg.allDay
-                            })
-                        }
+                        console.log('arg:', arg) // check parameter named as "arg"
+                        inputTitle.val("");
+                        inputDescription.val("");
+                        inputLocation.val("");
+                        inputPriority.val(priority);
+                        $(".removeBtn, .modifyBtn").hide();
+                        $(".planSaveBtn").show();
+                        $('.planModal').modal('show');
+                        // var title = prompt('Event Title:');
+                        // if (title) {
+                        //     calendar.addEvent({
+                        //         title: title,
+                        //         start: arg.start,
+                        //         end: arg.end,
+                        //         allDay: arg.allDay
+                        //     })
+                        // }
+                        $(".planSaveBtn").on("click", function () {
+                            var data = {
+                                title: inputTitle.val(),
+                                description: inputDescription.val(),
+                                location: inputLocation.val(),
+                                priority: inputPriority.val()
+
+                            };
+                            planModal.modal('hide');
+                        });
+
                         calendar.unselect()
                     },
                     eventClick: function (arg) {
