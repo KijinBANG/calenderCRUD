@@ -77,14 +77,11 @@
 
         <script>
 
-            document.addEventListener('DOMContentLoaded', function () {
-
                 let today = new Date();
                 let planModal = $(".planModal");
                 let inputTitle = $('input[name="title"]');
                 let inputDescription = $('textarea[id="description"]');
                 let inputLocation = $('input[name="location"]');
-                let inputPriority = $('input[class="priority"]');
                 var priority = 1;
                 $('.starrr').starrr({
                     rating: priority,
@@ -112,37 +109,66 @@
                         inputTitle.val("");
                         inputDescription.val("");
                         inputLocation.val("");
-                        inputPriority.val(priority);
                         $(".removeBtn, .modifyBtn").hide();
                         $(".planSaveBtn").show();
                         $('.planModal').modal('show');
-                        // var title = prompt('Event Title:');
-                        // if (title) {
-                        //     calendar.addEvent({
-                        //         title: title,
-                        //         start: arg.start,
-                        //         end: arg.end,
-                        //         allDay: arg.allDay
-                        //     })
-                        // }
-                        $(".planSaveBtn").on("click", function () {
+
+                        $(".planSaveBtn").not('.clickbind').on("click", function () {
                             var data = {
                                 title: inputTitle.val(),
                                 description: inputDescription.val(),
                                 location: inputLocation.val(),
-                                priority: inputPriority.val()
-
+                                priority: priority,
+                                allDay: arg.allDay,
+                                start: arg.start.toISOString(),
+                                end: arg.end.toISOString()
                             };
+                            console.log("129: ", data);//
+                            if (data.title) {
+                                calendar.addEvent(data)
+                            }
                             planModal.modal('hide');
                         });
 
                         calendar.unselect()
                     },
                     eventClick: function (arg) {
-                        console.log('arg:', arg)
-                        if (confirm('Are you sure you want to delete this event?')) {
-                            arg.event.remove()
-                        }
+                        console.log('arg:', arg)//
+                        inputTitle.val(arg.event.title);
+                        inputDescription.val(arg.event.extendedProps.description);
+                        inputLocation.val(arg.event.extendedProps.location);
+                        $(".starrr").starrr({
+                            rating: arg.event.extendedProps.priority
+                        });
+                        $(".planSaveBtn").hide();
+                        $(".removeBtn, .modifyBtn").show();
+                        $('.planModal').modal('show');
+
+                        $('.modifyBtn').not('.clickbind').on("click", function () {
+                            var data = {
+                                title: inputTitle.val(),
+                                description: inputDescription.val(),
+                                location: inputLocation.val(),
+                                priority: priority,
+                                allDay: arg.event.allDay,
+                                start: arg.event.start.toISOString(),
+                                end: arg.event.end.toISOString()
+                            };
+                            console.log(data);//
+                            if (data.title) {
+                                arg.event.remove();
+                                calendar.addEvent(data);
+                            }
+                            planModal.modal('hide');
+                        });
+
+                        $(".removeBtn").not('.clickbind').on("click", function () {
+                            if (confirm('Are you sure you want to delete this event?')) {
+                                arg.event.remove()
+                            }
+                            planModal.modal('hide');
+                        });
+
                     },
                     editable: true,
                     dayMaxEvents: true, // allow "more" link when too many events
@@ -260,7 +286,6 @@
                 });
 
                 calendar.render();
-            });
 
         </script>
 
