@@ -19,7 +19,7 @@ public class PlanRepositoryTest {
     @Test
     public void insertPlans() {
         Random r = new Random();
-        String[] colors = {"#dcced3", "#d1bec7", "#c7b0bc", "876479", "674559", "4c3041"};
+        String[] colors = {"#dcced3", "#d1bec7", "#c7b0bc", "#876479", "#674559", "#4c3041"};
 
         IntStream.rangeClosed(1, 11).forEach(i -> {
             int priority = 1 + r.nextInt(5);

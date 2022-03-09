@@ -33,9 +33,6 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">일정 등록</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
                     </div>
                     <div class="modal-body">
                         <!-- title 입력 -->
@@ -62,10 +59,10 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary planSaveBtn">Save</button>
                         <button type="button" class="btn btn-warning modifyBtn">Modify</button>
                         <button type="button" class="btn btn-danger removeBtn">Delete</button>
+                        <button type="button" class="btn btn-secondary closeBtn">Close</button>
                     </div>
                 </div>
             </div>
@@ -105,7 +102,6 @@
                     selectable: true,
                     selectMirror: true,
                     select: function (arg) {
-                        console.log('arg:', arg) // check parameter named as "arg"
                         inputTitle.val("");
                         inputDescription.val("");
                         inputLocation.val("");
@@ -124,8 +120,14 @@
                                 end: arg.end.toISOString()
                             };
                             if (data.title) {
-                                calendar.addEvent(data)
+                                calendar.addEvent(data);
+                                planModal.modal('hide');
+                            }else {
+                                alert("Title 에 내용을 입력 하여 주세요.")
                             }
+                        });
+
+                        $(".closeBtn").off('click').on("click", function () {
                             planModal.modal('hide');
                         });
 
@@ -157,8 +159,11 @@
                             if (data.title) {
                                 arg.event.remove();
                                 calendar.addEvent(data);
+                                planModal.modal('hide');
+                            }else {
+                                alert("Title 에 내용을 입력 하여 주세요.")
                             }
-                            planModal.modal('hide');
+
                         });
 
                         $(".removeBtn").off('click').on("click", function () {
@@ -168,122 +173,130 @@
                             planModal.modal('hide');
                         });
 
+                        $(".closeBtn").off('click').on("click", function () {
+                            planModal.modal('hide');
+                        });
+
                     },
                     editable: true,
                     dayMaxEvents: true, // allow "more" link when too many events
-                    events: [
-                        {
-                            title: '중요하지 않음',
-                            backgroundColor: '#dcced3',
-                            borderColor: '#d1bec7',
-                            textColor: 'gray',
-                            start: '2022-03-01'
-                        },
-                        {
-                            title: '조금 중요',
-                            backgroundColor: '#d1bec7',
-                            borderColor: '#c7b0bc',
-                            textColor: 'gray',
-                            start: '2022-03-02'
-                        },
-                        {
-                            title: '보통',
-                            backgroundColor: '#c7b0bc',
-                            borderColor: '#876479',
-                            textColor: 'gray',
-                            start: '2022-03-03'
-                        },
-                        {
-                            title: '중요',
-                            backgroundColor: '#876479',
-                            borderColor: '#674559',
-                            textColor: 'white',
-                            start: '2022-03-04'
-                        },
-                        {
-                            title: '매우중요',
-                            backgroundColor: '#674559',
-                            borderColor: '#4c3041',
-                            textColor: 'white',
-                            start: '2022-03-05'
-                        },
-                        {
-                            title: 'Long Event',
-                            start: '2022-03-07',
-                            end: '2022-03-10'
-                        },
-                        {
-                            title: 'DP_auto',
-                            display: 'auto',
-                            start: '2022-03-20',
-                            end: '2022-03-21'
-                        },
-                        {
-                            title: 'DP_block',
-                            display: 'block',
-                            start: '2022-03-21',
-                            end: '2022-03-22'
-                        },
-                        {
-                            title: 'DP_list-item',
-                            display: 'list-item',
-                            start: '2022-03-22',
-                            end: '2022-03-23'
-                        },
-                        {
-                            title: 'DP_none',
-                            display: 'none',
-                            start: '2022-03-07',
-                            end: '2022-03-21'
-                        },
-                        {
-                            groupId: 999,
-                            title: 'Repeating Event',
-                            start: '2022-03-09T16:00:00'
-                        },
-                        {
-                            groupId: 999,
-                            title: 'Repeating Event',
-                            start: '2022-03-16T16:00:00'
-                        },
-                        {
-                            title: 'Conference',
-                            start: '2022-03-11',
-                            end: '2022-03-13'
-                        },
-                        {
-                            title: 'Meeting',
-                            start: '2022-03-12T10:30:00',
-                            end: '2022-03-12T12:30:00'
-                        },
-                        {
-                            title: 'Lunch',
-                            start: '2022-03-12T12:00:00'
-                        },
-                        {
-                            title: 'Meeting',
-                            start: '2022-03-12T14:30:00'
-                        },
-                        {
-                            title: 'Happy Hour',
-                            start: '2022-03-12T17:30:00'
-                        },
-                        {
-                            title: 'Dinner',
-                            start: '2022-03-12T20:00:00'
-                        },
-                        {
-                            title: 'Birthday Party',
-                            start: '2022-03-13T07:00:00'
-                        },
-                        {
-                            title: 'Click for Google',
-                            url: 'http://google.com/',
-                            start: '2022-03-28'
-                        }
-                    ]
+                    // events: [
+                    //     {
+                    //         title: '중요하지 않음',
+                    //         backgroundColor: '#dcced3',
+                    //         borderColor: '#d1bec7',
+                    //         textColor: 'gray',
+                    //         start: '2022-03-01'
+                    //     },
+                    //     {
+                    //         title: '조금 중요',
+                    //         backgroundColor: '#d1bec7',
+                    //         borderColor: '#c7b0bc',
+                    //         textColor: 'gray',
+                    //         start: '2022-03-02'
+                    //     },
+                    //     {
+                    //         title: '보통',
+                    //         backgroundColor: '#c7b0bc',
+                    //         borderColor: '#876479',
+                    //         textColor: 'gray',
+                    //         start: '2022-03-03'
+                    //     },
+                    //     {
+                    //         title: '중요',
+                    //         backgroundColor: '#876479',
+                    //         borderColor: '#674559',
+                    //         textColor: 'white',
+                    //         start: '2022-03-04'
+                    //     },
+                    //     {
+                    //         title: '매우중요',
+                    //         backgroundColor: '#674559',
+                    //         borderColor: '#4c3041',
+                    //         textColor: 'white',
+                    //         start: '2022-03-05'
+                    //     },
+                    //     {
+                    //         title: 'Long Event',
+                    //         start: '2022-03-07',
+                    //         end: '2022-03-10'
+                    //     },
+                    //     {
+                    //         title: 'DP_auto',
+                    //         display: 'auto',
+                    //         start: '2022-03-20',
+                    //         end: '2022-03-21'
+                    //     },
+                    //     {
+                    //         title: 'DP_block',
+                    //         display: 'block',
+                    //         start: '2022-03-21',
+                    //         end: '2022-03-22'
+                    //     },
+                    //     {
+                    //         title: 'DP_list-item',
+                    //         display: 'list-item',
+                    //         start: '2022-03-22',
+                    //         end: '2022-03-23'
+                    //     },
+                    //     {
+                    //         title: 'DP_none',
+                    //         display: 'none',
+                    //         start: '2022-03-07',
+                    //         end: '2022-03-21'
+                    //     },
+                    //     {
+                    //         groupId: 999,
+                    //         title: 'Repeating Event',
+                    //         start: '2022-03-09T16:00:00'
+                    //     },
+                    //     {
+                    //         groupId: 999,
+                    //         title: 'Repeating Event',
+                    //         start: '2022-03-16T16:00:00'
+                    //     },
+                    //     {
+                    //         title: 'Conference',
+                    //         start: '2022-03-11',
+                    //         end: '2022-03-13'
+                    //     },
+                    //     {
+                    //         title: 'Meeting',
+                    //         start: '2022-03-12T10:30:00',
+                    //         end: '2022-03-12T12:30:00'
+                    //     },
+                    //     {
+                    //         title: 'Lunch',
+                    //         start: '2022-03-12T12:00:00'
+                    //     },
+                    //     {
+                    //         title: 'Meeting',
+                    //         start: '2022-03-12T14:30:00'
+                    //     },
+                    //     {
+                    //         title: 'Happy Hour',
+                    //         start: '2022-03-12T17:30:00'
+                    //     },
+                    //     {
+                    //         title: 'Dinner',
+                    //         start: '2022-03-12T20:00:00'
+                    //     },
+                    //     {
+                    //         title: 'Birthday Party',
+                    //         start: '2022-03-13T07:00:00'
+                    //     },
+                    //     {
+                    //         title: 'Click for Google',
+                    //         url: 'http://google.com/',
+                    //         start: '2022-03-28'
+                    //     }
+                    // ]
                 });
-
+                $.getJSON("/calendar/list",function (arr) {
+                    for (var i in arr) {
+                        calendar.addEvent(arr[i]);
+                    }
+                });
                 calendar.render();
 
         </script>
