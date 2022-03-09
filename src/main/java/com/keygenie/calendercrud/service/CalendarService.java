@@ -27,6 +27,7 @@ public interface CalendarService {
                 .title(calendarDTO.getTitle())
                 .description(calendarDTO.getDescription())
                 .location(calendarDTO.getLocation())
+                .priority(p)
                 .allDay(allDay)
                 .start(LocalDateTime.parse(calendarDTO.getStart()))
                 .end(LocalDateTime.parse(calendarDTO.getEnd()))

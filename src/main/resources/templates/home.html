@@ -102,6 +102,7 @@
                     selectable: true,
                     selectMirror: true,
                     select: function (arg) {
+                        console.log("arg when select: ", arg)
                         inputTitle.val("");
                         inputDescription.val("");
                         inputLocation.val("");
@@ -116,9 +117,10 @@
                                 location: inputLocation.val(),
                                 priority: priority,
                                 allDay: arg.allDay,
-                                start: arg.start.toISOString(),
-                                end: arg.end.toISOString()
+                                start: arg.start.toISOString().slice(0, 16),
+                                end: arg.end.toISOString().slice(0, 16)
                             };
+                            console.log("data_save: ", data)
                             if (data.title) {
                                 $.ajax({
                                     url: '/calendar/register',
@@ -151,14 +153,20 @@
                         inputTitle.val(arg.event.title);
                         inputDescription.val(arg.event.extendedProps.description);
                         inputLocation.val(arg.event.extendedProps.location);
+                        priority = arg.event.extendedProps.priority;
+                        console.log("priority: ", priority);//
                         $(".starrr").starrr({
-                            rating: arg.event.extendedProps.priority
+                            rating: priority
                         });
                         $(".planSaveBtn").hide();
                         $(".removeBtn, .modifyBtn").show();
                         $('.planModal').modal('show');
 
                         $('.modifyBtn').off('click').on("click", function () {
+                            let end = arg.event.start.toISOString().slice(0,16);
+                            if (arg.event.end != null) {
+                                end = arg.event.end.toISOString().slice(0, 16);
+                            }
                             var data = {
                                 id: arg.event.id,
                                 title: inputTitle.val(),
@@ -166,10 +174,10 @@
                                 location: inputLocation.val(),
                                 priority: priority,
                                 allDay: arg.event.allDay,
-                                start: arg.event.start.toISOString(),
-                                end: arg.event.end.toISOString()
+                                start: arg.event.start.toISOString().slice(0, 16),
+                                end: end
                             };
-                            console.log(data);//
+                            console.log("data_modify", data);//
                             if (data.title) {
                                 $.ajax({
                                     url: '/calendar/modify',

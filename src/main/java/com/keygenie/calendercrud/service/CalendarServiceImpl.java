@@ -41,6 +41,7 @@ public class CalendarServiceImpl implements CalendarService {
             plan.changeTitle(data.getTitle());
             plan.changeDescription(data.getDescription());
             plan.changeLocation(data.getLocation());
+            plan.changePriority(data.getPriority());
             plan.changeAllDay(data.getAllDay());
             plan.changeStart(data.getStart());
             plan.changeEnd(data.getEnd());
