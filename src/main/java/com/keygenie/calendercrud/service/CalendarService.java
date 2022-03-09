@@ -11,9 +11,9 @@ public interface CalendarService {
 
     List<CalendarDTO> getAll();
 
-    Long register(CalendarDTO calendarDTO);
+    CalendarDTO register(CalendarDTO calendarDTO);
 
-    Long modify(CalendarDTO calendarDTO);
+    CalendarDTO modify(CalendarDTO calendarDTO);
 
     Long remove(Long id);
 

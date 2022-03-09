@@ -25,14 +25,14 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     @Override
-    public Long register(CalendarDTO calendarDTO) {
+    public CalendarDTO register(CalendarDTO calendarDTO) {
         Plan plan = dtoToEntity(calendarDTO);
         planRepository.save(plan);
-        return plan.getId();
+        return entityToDTO(plan);
     }
 
     @Override
-    public Long modify(CalendarDTO calendarDTO) {
+    public CalendarDTO modify(CalendarDTO calendarDTO) {
         Optional<Plan> result = planRepository.findById(calendarDTO.getId());
         Plan plan;
         Plan data = dtoToEntity(calendarDTO);
@@ -50,7 +50,7 @@ public class CalendarServiceImpl implements CalendarService {
             plan.changeTextColor(data.getTextColor());
 
             planRepository.save(plan);
-            return plan.getId();
+            return entityToDTO(plan);
         }else {
             return null;
         }

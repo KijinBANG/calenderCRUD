@@ -26,17 +26,17 @@ public class CalendarController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Long> registerPlan(@RequestBody CalendarDTO calendarDTO) {
+    public ResponseEntity<CalendarDTO> registerPlan(@RequestBody CalendarDTO calendarDTO) {
         log.info("here is CalendarController. calendarDTO: " + calendarDTO);
-        Long id = calendarService.register(calendarDTO);
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        CalendarDTO result = calendarService.register(calendarDTO);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PutMapping("/modify")
-    public ResponseEntity<Long> modifyPlan(@RequestBody CalendarDTO calendarDTO) {
+    public ResponseEntity<CalendarDTO> modifyPlan(@RequestBody CalendarDTO calendarDTO) {
         log.info("let\'s modify plan. calendarDTO: " + calendarDTO);
-        Long id = calendarService.modify(calendarDTO);
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        CalendarDTO result = calendarService.modify(calendarDTO);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @DeleteMapping("/remove/{id}")

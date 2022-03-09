@@ -16,7 +16,7 @@ public class PlanRepositoryTest {
     @Autowired
     private PlanRepository planRepository;
 
-    @Test
+    //@Test
     public void insertPlans() {
         Random r = new Random();
         String[] colors = {"#dcced3", "#d1bec7", "#c7b0bc", "#876479", "#674559", "#4c3041"};
@@ -52,5 +52,16 @@ public class PlanRepositoryTest {
                     .build();
             planRepository.save(plan);
         });
+    }
+
+    @Test
+    public void LocalDateTimeParsingTest() {
+        String date = "2022-03-01T00:00";
+        System.out.println("date: " + date);
+        LocalDateTime first = LocalDateTime.parse(date);
+        System.out.println("first: " + first);
+        date = first.toString();
+        System.out.println("date: " + date);
+
     }
 }

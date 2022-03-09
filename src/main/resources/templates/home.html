@@ -88,6 +88,21 @@
                         }
                     }
                 });
+                function timeToString(date) {
+                    var yyyy = date.getFullYear().toString();
+                    var MM = pad(date.getMonth() + 1, 2);
+                    var dd = pad(date.getDate(), 2);
+                    var hh = pad(date.getHours(), 2);
+                    var mm = pad(date.getMinutes(), 2);
+                    return yyyy + "-" + MM + "-" + dd + "T" + hh + ":"  + mm;
+                }
+                function pad(number, length) {
+                    var str = '' + number;
+                    while(str.length < length) {
+                        str = '0' + str
+                    }
+                    return str;
+                }
 
                 var calendarEl = document.getElementById('calendar');
 
@@ -117,8 +132,8 @@
                                 location: inputLocation.val(),
                                 priority: priority,
                                 allDay: arg.allDay,
-                                start: arg.start.toISOString().slice(0, 16),
-                                end: arg.end.toISOString().slice(0, 16)
+                                start: timeToString(arg.start),
+                                end: timeToString(arg.end)
                             };
                             console.log("data_save: ", data)
                             if (data.title) {
@@ -132,8 +147,8 @@
                                         console.log("fail: ", result);
                                     },
                                     success: function (result) {
-                                        console.log(result)
-                                        calendar.addEvent(data);
+                                        console.log("result of Registering: ", result);
+                                        calendar.addEvent(JSON.parse(result));
                                     },
                                 });
                                 planModal.modal('hide');
@@ -163,9 +178,9 @@
                         $('.planModal').modal('show');
 
                         $('.modifyBtn').off('click').on("click", function () {
-                            let end = arg.event.start.toISOString().slice(0,16);
+                            let end = timeToString(arg.event.start);
                             if (arg.event.end != null) {
-                                end = arg.event.end.toISOString().slice(0, 16);
+                                end = timeToString(arg.event.end);
                             }
                             var data = {
                                 id: arg.event.id,
@@ -174,7 +189,7 @@
                                 location: inputLocation.val(),
                                 priority: priority,
                                 allDay: arg.event.allDay,
-                                start: arg.event.start.toISOString().slice(0, 16),
+                                start: timeToString(arg.event.start),
                                 end: end
                             };
                             console.log("data_modify", data);//
@@ -191,7 +206,7 @@
                                     success: function (result) {
                                         console.log(result);
                                         arg.event.remove();
-                                        calendar.addEvent(data)
+                                        calendar.addEvent(JSON.parse(result));
                                     }
                                 });
                                 planModal.modal('hide');
@@ -227,117 +242,6 @@
                     },
                     editable: true,
                     dayMaxEvents: true, // allow "more" link when too many events
-                    // events: [
-                    //     {
-                    //         title: '중요하지 않음',
-                    //         backgroundColor: '#dcced3',
-                    //         borderColor: '#d1bec7',
-                    //         textColor: 'gray',
-                    //         start: '2022-03-01'
-                    //     },
-                    //     {
-                    //         title: '조금 중요',
-                    //         backgroundColor: '#d1bec7',
-                    //         borderColor: '#c7b0bc',
-                    //         textColor: 'gray',
-                    //         start: '2022-03-02'
-                    //     },
-                    //     {
-                    //         title: '보통',
-                    //         backgroundColor: '#c7b0bc',
-                    //         borderColor: '#876479',
-                    //         textColor: 'gray',
-                    //         start: '2022-03-03'
-                    //     },
-                    //     {
-                    //         title: '중요',
-                    //         backgroundColor: '#876479',
-                    //         borderColor: '#674559',
-                    //         textColor: 'white',
-                    //         start: '2022-03-04'
-                    //     },
-                    //     {
-                    //         title: '매우중요',
-                    //         backgroundColor: '#674559',
-                    //         borderColor: '#4c3041',
-                    //         textColor: 'white',
-                    //         start: '2022-03-05'
-                    //     },
-                    //     {
-                    //         title: 'Long Event',
-                    //         start: '2022-03-07',
-                    //         end: '2022-03-10'
-                    //     },
-                    //     {
-                    //         title: 'DP_auto',
-                    //         display: 'auto',
-                    //         start: '2022-03-20',
-                    //         end: '2022-03-21'
-                    //     },
-                    //     {
-                    //         title: 'DP_block',
-                    //         display: 'block',
-                    //         start: '2022-03-21',
-                    //         end: '2022-03-22'
-                    //     },
-                    //     {
-                    //         title: 'DP_list-item',
-                    //         display: 'list-item',
-                    //         start: '2022-03-22',
-                    //         end: '2022-03-23'
-                    //     },
-                    //     {
-                    //         title: 'DP_none',
-                    //         display: 'none',
-                    //         start: '2022-03-07',
-                    //         end: '2022-03-21'
-                    //     },
-                    //     {
-                    //         groupId: 999,
-                    //         title: 'Repeating Event',
-                    //         start: '2022-03-09T16:00:00'
-                    //     },
-                    //     {
-                    //         groupId: 999,
-                    //         title: 'Repeating Event',
-                    //         start: '2022-03-16T16:00:00'
-                    //     },
-                    //     {
-                    //         title: 'Conference',
-                    //         start: '2022-03-11',
-                    //         end: '2022-03-13'
-                    //     },
-                    //     {
-                    //         title: 'Meeting',
-                    //         start: '2022-03-12T10:30:00',
-                    //         end: '2022-03-12T12:30:00'
-                    //     },
-                    //     {
-                    //         title: 'Lunch',
-                    //         start: '2022-03-12T12:00:00'
-                    //     },
-                    //     {
-                    //         title: 'Meeting',
-                    //         start: '2022-03-12T14:30:00'
-                    //     },
-                    //     {
-                    //         title: 'Happy Hour',
-                    //         start: '2022-03-12T17:30:00'
-                    //     },
-                    //     {
-                    //         title: 'Dinner',
-                    //         start: '2022-03-12T20:00:00'
-                    //     },
-                    //     {
-                    //         title: 'Birthday Party',
-                    //         start: '2022-03-13T07:00:00'
-                    //     },
-                    //     {
-                    //         title: 'Click for Google',
-                    //         url: 'http://google.com/',
-                    //         start: '2022-03-28'
-                    //     }
-                    // ]
                 });
                 $.getJSON("/calendar/list",function (arr) {
                     for (var i in arr) {
