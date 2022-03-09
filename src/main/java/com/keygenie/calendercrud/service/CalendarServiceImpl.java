@@ -8,6 +8,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,5 +22,43 @@ public class CalendarServiceImpl implements CalendarService {
         List<Plan> plans = planRepository.findAll();
         log.info("here is CalendarServiceImpl. plans: " + plans);
         return plans.stream().map(plan -> entityToDTO(plan)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Long register(CalendarDTO calendarDTO) {
+        Plan plan = dtoToEntity(calendarDTO);
+        planRepository.save(plan);
+        return plan.getId();
+    }
+
+    @Override
+    public Long modify(CalendarDTO calendarDTO) {
+        Optional<Plan> result = planRepository.findById(calendarDTO.getId());
+        Plan plan;
+        Plan data = dtoToEntity(calendarDTO);
+        if(result.isPresent()){
+            plan = result.get();
+            plan.changeTitle(data.getTitle());
+            plan.changeDescription(data.getDescription());
+            plan.changeLocation(data.getLocation());
+            plan.changeAllDay(data.getAllDay());
+            plan.changeStart(data.getStart());
+            plan.changeEnd(data.getEnd());
+            plan.changeBackgroundColor(data.getBackgroundColor());
+            plan.changeBorderColor(data.getBorderColor());
+            plan.changeTextColor(data.getTextColor());
+
+            planRepository.save(plan);
+            return plan.getId();
+        }else {
+            return null;
+        }
+
+    }
+
+    @Override
+    public Long remove(Long id) {
+        planRepository.deleteById(id);
+        return id;
     }
 }

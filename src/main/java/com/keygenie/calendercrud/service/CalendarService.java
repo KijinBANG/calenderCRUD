@@ -11,6 +11,12 @@ public interface CalendarService {
 
     List<CalendarDTO> getAll();
 
+    Long register(CalendarDTO calendarDTO);
+
+    Long modify(CalendarDTO calendarDTO);
+
+    Long remove(Long id);
+
     default Plan dtoToEntity(CalendarDTO calendarDTO) {
         String[] colors = {"#dcced3", "#d1bec7", "#c7b0bc", "#876479", "#674559", "#4c3041"};
         int allDay = calendarDTO.isAllDay() ? 1 : 0;

@@ -120,7 +120,20 @@
                                 end: arg.end.toISOString()
                             };
                             if (data.title) {
-                                calendar.addEvent(data);
+                                $.ajax({
+                                    url: '/calendar/register',
+                                    type: "POST",
+                                    data: JSON.stringify(data),
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "text",
+                                    error: function (result) {
+                                        console.log("fail: ", result);
+                                    },
+                                    success: function (result) {
+                                        console.log(result)
+                                        calendar.addEvent(data);
+                                    },
+                                });
                                 planModal.modal('hide');
                             }else {
                                 alert("Title 에 내용을 입력 하여 주세요.")
@@ -147,6 +160,7 @@
 
                         $('.modifyBtn').off('click').on("click", function () {
                             var data = {
+                                id: arg.event.id,
                                 title: inputTitle.val(),
                                 description: inputDescription.val(),
                                 location: inputLocation.val(),
@@ -157,8 +171,21 @@
                             };
                             console.log(data);//
                             if (data.title) {
-                                arg.event.remove();
-                                calendar.addEvent(data);
+                                $.ajax({
+                                    url: '/calendar/modify',
+                                    type: 'PUT',
+                                    data: JSON.stringify(data),
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "text",
+                                    error: function (result) {
+                                        console.log("fail: ", result);
+                                    },
+                                    success: function (result) {
+                                        console.log(result);
+                                        arg.event.remove();
+                                        calendar.addEvent(data)
+                                    }
+                                });
                                 planModal.modal('hide');
                             }else {
                                 alert("Title 에 내용을 입력 하여 주세요.")
@@ -168,7 +195,19 @@
 
                         $(".removeBtn").off('click').on("click", function () {
                             if (confirm('Are you sure you want to delete this event?')) {
-                                arg.event.remove()
+                                $.ajax({
+                                    url: '/calendar/remove/' + arg.event.id,
+                                    type: "DELETE",
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "text",
+                                    error: function (result) {
+                                        console.log("fail: ", result)
+                                    },
+                                    success: function (result) {
+                                        console.log("result:" + result);
+                                        arg.event.remove();
+                                    }
+                                })
                             }
                             planModal.modal('hide');
                         });

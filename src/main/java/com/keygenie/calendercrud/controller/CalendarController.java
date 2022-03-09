@@ -7,9 +7,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +23,27 @@ public class CalendarController {
         List<CalendarDTO> plans = calendarService.getAll();
         log.info("plans: " + plans);
         return new ResponseEntity<List<CalendarDTO>>(plans, HttpStatus.OK);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<Long> registerPlan(@RequestBody CalendarDTO calendarDTO) {
+        log.info("here is CalendarController. calendarDTO: " + calendarDTO);
+        Long id = calendarService.register(calendarDTO);
+        return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+    @PutMapping("/modify")
+    public ResponseEntity<Long> modifyPlan(@RequestBody CalendarDTO calendarDTO) {
+        log.info("let\'s modify plan. calendarDTO: " + calendarDTO);
+        Long id = calendarService.modify(calendarDTO);
+        return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/remove/{id}")
+    public ResponseEntity<Long> removePlan(@PathVariable Long id) {
+        log.info("let\' delete plan. id: " + id);
+        calendarService.remove(id);
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
 }
