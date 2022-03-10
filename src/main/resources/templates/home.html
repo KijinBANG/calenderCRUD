@@ -32,7 +32,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">일정 등록</h5>
+                        <h5 class="modal-title"></h5>
                     </div>
                     <div class="modal-body">
                         <!-- title 입력 -->
@@ -118,6 +118,7 @@
                     selectMirror: true,
                     select: function (arg) {
                         console.log("arg when select: ", arg)
+                        $('.modal-title').text("Register Plan");//documentation 에 추가!!
                         inputTitle.val("");
                         inputDescription.val("");
                         inputLocation.val("");
@@ -165,6 +166,7 @@
                     },
                     eventClick: function (arg) {
                         console.log('arg:', arg)//
+                        $('.modal-title').text("Alter Plan");//documentation!
                         inputTitle.val(arg.event.title);
                         inputDescription.val(arg.event.extendedProps.description);
                         inputLocation.val(arg.event.extendedProps.location);
