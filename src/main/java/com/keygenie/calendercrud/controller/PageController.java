@@ -20,4 +20,7 @@ public class PageController {
     @GetMapping("/calendar/table")
     public void calendarList() {}
 
+    @GetMapping("/member/join")
+    public void join() {}
+
 }

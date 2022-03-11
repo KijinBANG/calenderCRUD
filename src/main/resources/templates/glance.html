@@ -25,29 +25,6 @@
             }
         </style>
 
-        <table style="width: 100%">
-            <tr>
-                <td style="width: 30%">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-secondary prev">prev</button>
-                        <button type="button" class="btn btn-secondary next">next</button>
-                    </div>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-secondary today">today</button>
-                    </div>
-                </td>
-                <td>
-                    <h3 id="displayedDate"></h3>
-                </td>
-                <td th:align="right" style="width: 40%">
-                    <div class="input-group">
-                        <input type="date" class="form-control" name="gotoDate">
-                        <button type="button" class="btn btn-secondary gotoDate">go to Date</button>
-                    </div>
-                </td>
-            </tr>
-        </table>
-
         <FullCalendar>
             <div id='calendar'></div>
         </FullCalendar>
@@ -98,38 +75,6 @@
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
 
         <script>
-            function getTitle(dateObj) {
-                const monthNameLong = dateObj.toLocaleString("en-US", { month: "long" });
-                var year = dateObj.getFullYear().toString();
-                return monthNameLong + " " + year;
-            }
-            $('.prev').on('click', function () {
-                calendar.prev();
-                console.log(calendar.getDate());
-                let dateObj = calendar.getDate();
-                $('#displayedDate').text(getTitle(dateObj));
-            });
-            $('.next').on('click', function () {
-                calendar.next();
-                console.log(calendar.getDate());
-                let dateObj = calendar.getDate();
-                $('#displayedDate').text(getTitle(dateObj));
-            });
-            $('.today').on('click', function () {
-                calendar.today();
-                console.log(calendar.getDate());
-                let dateObj = calendar.getDate();
-                $('#displayedDate').text(getTitle(dateObj));
-            });
-            $('.gotoDate').on('click', function() {
-                var gotoDate = $('input[name="gotoDate"]');
-                console.log("type: ", typeof(gotoDate.val()));//
-                gotoDate = gotoDate.val();
-                gotoDate = new Date(gotoDate);
-                console.log("type: ", typeof(gotoDate));//
-                calendar.gotoDate(gotoDate);
-                $('#displayedDate').text(getTitle(gotoDate));
-            });
 
             let today = new Date();
             let planModal = $(".planModal");
@@ -167,11 +112,6 @@
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                headerToolbar: {
-                    start: '',
-                    center: '',
-                    end: ''
-                },
                 initialDate: today,
                 navLinks: true, // can click day/week names to navigate views
                 selectable: true,
@@ -257,9 +197,6 @@
                 dayMaxEvents: true, // allow "more" link when too many events
             });
             calendar.render();
-
-            let dateObj = calendar.getDate();
-            $('#displayedDate').text(getTitle(dateObj));
 
         </script>
 

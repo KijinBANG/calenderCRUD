@@ -25,6 +25,29 @@
             }
         </style>
 
+        <table style="width: 100%">
+            <tr>
+                <td style="width: 30%">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary prev">prev</button>
+                        <button type="button" class="btn btn-secondary next">next</button>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary today">today</button>
+                    </div>
+                </td>
+                <td>
+                    <h3 id="displayedDate" class="justify-content-center"></h3>
+                </td>
+                <td th:align="right" style="width: 40%">
+                    <div class="input-group">
+                        <input type="date" class="form-control" name="gotoDate">
+                        <button type="button" class="btn btn-secondary gotoDate">go to Date</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
         <FullCalendar>
             <div id='calendar'></div>
         </FullCalendar>
@@ -38,24 +61,24 @@
                     </div>
                     <div class="modal-body">
                         <!-- title 입력 -->
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label>Title</label>
                             <input type="text" class="form-control" name="title" placeholder="Enter 'Title' here...">
                         </div>
                         <!-- description 입력 -->
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label>Description</label>
                             <textarea class="form-control" rows="5" id="description"
                                       placeholder="Enter 'Description' here..."></textarea>
                         </div>
                         <!-- location 입력 -->
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label>Location</label>
                             <input type="text" class="form-control" name="location"
                                    placeholder="Enter 'Location' here...">
                         </div>
                         <!-- Priority 입력 -->
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label>Priority<span class="priority"></span></label>
                             <div class='starrr'></div>
                         </div>
@@ -76,6 +99,38 @@
 
         <script>
 
+            function getTitle(dateObj) {
+                const monthNameLong = dateObj.toLocaleString("en-US", { month: "long" });
+                var year = dateObj.getFullYear().toString();
+                return monthNameLong + " " + year;
+            }
+            $('.prev').on('click', function () {
+                calendar.prev();
+                console.log(calendar.getDate());
+                let dateObj = calendar.getDate();
+                $('#displayedDate').text(getTitle(dateObj));
+            });
+            $('.next').on('click', function () {
+                calendar.next();
+                console.log(calendar.getDate());
+                let dateObj = calendar.getDate();
+                $('#displayedDate').text(getTitle(dateObj));
+            });
+            $('.today').on('click', function () {
+                calendar.today();
+                console.log(calendar.getDate());
+                let dateObj = calendar.getDate();
+                $('#displayedDate').text(getTitle(dateObj));
+            });
+            $('.gotoDate').on('click', function() {
+                var gotoDate = $('input[name="gotoDate"]');
+                console.log("type: ", typeof(gotoDate.val()));//
+                gotoDate = gotoDate.val();
+                gotoDate = new Date(gotoDate);
+                console.log("type: ", typeof(gotoDate));//
+                calendar.gotoDate(gotoDate);
+                $('#displayedDate').text(getTitle(gotoDate));
+            });
             $.getJSON("/calendar/list",function (arr) {
                 for (var i in arr) {
                     calendar.addEvent(arr[i]);
@@ -117,9 +172,9 @@
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    start: '',
+                    center: '',
+                    end: ''
                 },
                 initialDate: today,
                 navLinks: true, // can click day/week names to navigate views
@@ -254,6 +309,8 @@
                 editable: true,
                 dayMaxEvents: true, // allow "more" link when too many events
             });
+            let dateObj = calendar.getDate();
+            $('#displayedDate').text(getTitle(dateObj));
             calendar.render();
 
         </script>

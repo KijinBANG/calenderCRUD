@@ -12,22 +12,66 @@
 <body>
 <section class="ftco-section">
     <div class="container">
+<!--        <div class="row justify-content-center">-->
+<!--            <div class="col-md-6 text-center mb-5">-->
+<!--                <h2 class="heading-section">회원 가입</h2>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="row justify-content-center">
-            <div class="col-md-6 text-center mb-5">
-                <h2 class="heading-section">회원 가입</h2>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-md-7 col-lg-5">
+            <div class="col-md-9 col-lg-7">
                 <div class="login-wrap p-4 p-md-6">
                     <div class="d-flex">
                         <h3 class="mb-4">Join In</h3>
                     </div>
-                    <form>
-                        <label for="basic-url" class="form-label">Your vanity URL</label>
+                    <form action="/board/list" method="get" id="joinForm">
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon3">https://example.com/users/</span>
-                            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                            <span class="form-control-plaintext input-group-text col-3">email</span>
+                            <input class="form-control" name="email">
+                            <button class="btn btn-primary rounded btn-authentication" type="button">인증받기</button>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">ID</span>
+                            <input class="form-control" name="id">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">별명</span>
+                            <input class="form-control" name="nick">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">Password</span>
+                            <input class="form-control" name="password">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">Check PW</span>
+                            <input class="form-control" name="check">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">Gender</span>
+                            <select class="form-control">
+                                <option value="1" selected>남성</option>
+                                <option value="2">여성</option>
+                                <option value="3">밝히고 싶지 않습니다.</option>
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">Birthday</span>
+                            <input type="date" class="form-control" name="birthday">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">개인질문</span>
+                            <select class="form-control">
+                                <option value="1" selected>처음 키운 애완동물의 이름은?</option>
+                                <option value="2">태어난 동네의 이름은?</option>
+                                <option value="3">가장 좋아하는 과일은?</option>
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">별명</span>
+                            <input class="form-control" name="nick">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary rounded submit" style="width:100%;height:60px;">회원가입하기</button>
                         </div>
 
                     </form>
