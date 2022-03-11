@@ -111,8 +111,13 @@
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
+                // headerToolbar: {
+                //     start: '',
+                //     center: '',
+                //     end: ''
+                // },
                 initialDate: today,
-                // navLinks: true, // can click day/week names to navigate views
+                navLinks: true, // can click day/week names to navigate views
                 selectable: true,
                 selectMirror: true,
                 select: function (arg) {
