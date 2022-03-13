@@ -37,7 +37,7 @@
                     </div>
                 </td>
                 <td>
-                    <h3 id="displayedDate" class="justify-content-center"></h3>
+                    <h3 id="displayedDate" class="row justify-content-center"></h3>
                 </td>
                 <td th:align="right" style="width: 40%">
                     <div class="input-group">
@@ -172,9 +172,9 @@
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 headerToolbar: {
-                    start: '',
-                    center: '',
-                    end: ''
+                    start: null,
+                    center: null,
+                    end: null
                 },
                 initialDate: today,
                 navLinks: true, // can click day/week names to navigate views
